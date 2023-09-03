@@ -24,9 +24,9 @@ export const parseLiterals = (
   const { swcOptions } = mergeOptions(userOptions)
 
   const visitor = new LiteralsVisitor()
-  const m = swc.parseSync(src, swcOptions)
+  const module = swc.parseSync(src, swcOptions)
 
-  visitor.visitModule(m)
+  visitor.visitModule(module)
 
   return visitor.getLiterals()
 }
@@ -38,56 +38,9 @@ export const parseLiteralsAsync = async (
   const { swcOptions } = mergeOptions(userOptions)
 
   const visitor = new LiteralsVisitor()
-  const m = await swc.parse(src, swcOptions)
+  const module = await swc.parse(src, swcOptions)
 
-  visitor.visitModule(m)
+  visitor.visitModule(module)
 
   return visitor.getLiterals()
 }
-
-// export const parseLiterals = (
-//   src: string,
-//   options: ParseLiteralsOptions = {},
-// ): Template[] => {
-//   // const strategy = {
-//   //   ...typescript,
-//   //   ...options.strategy,
-//   // }
-
-//   // const literals: Template[] = []
-//   // const visitedTemplates: unknown[] = []
-
-//   // const visitor = new Visitor()
-//   // visitor.visitTaggedTemplateExpression((node: swc.TaggedTemplateExpression) => {
-//   //   const template = strategy.getTaggedTemplateTemplate(node)
-//   //   visitedTemplates.push(template)
-//   //   literals.push({
-//   //     parts: strategy.getTemplateParts(template),
-//   //     tag: strategy.getTagText(node),
-//   //   })
-
-//   //   return node as swc.Expression
-//   // })
-
-//   strategy.walkNodes(
-//     strategy.getRootNode(src, options.fileName),
-//     visitor,
-//     // (node) => {
-//     //   if (strategy.isTaggedTemplate(node)) {
-//     //     const template = strategy.getTaggedTemplateTemplate(node)
-//     //     visitedTemplates.push(template)
-//     //     literals.push({
-//     //       parts: strategy.getTemplateParts(template),
-//     //       tag: strategy.getTagText(node),
-//     //     })
-//     //   }
-//     //   else if (strategy.isTemplate(node) && !visitedTemplates.includes(node)) {
-//     //     literals.push({
-//     //       parts: strategy.getTemplateParts(node),
-//     //     })
-//     //   }
-//     // },
-//   )
-
-//   return literals
-// }
