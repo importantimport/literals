@@ -1,0 +1,11 @@
+{
+  "name": "@importantimport/literals",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@importantimport/eslint-config": "^0.1.2",
+    "eslint": "^8.48.0",
+    "vite": "^4.4.9",
+    "vitest": "^0.34.3"
+  }
+}

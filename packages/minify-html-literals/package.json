@@ -1,0 +1,8 @@
+{
+  "name": "@importantimport/minify-html-literals",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "test": "vitest run"
+  }
+}
