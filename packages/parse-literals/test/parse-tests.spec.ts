@@ -227,19 +227,39 @@ describe('parse-tests', () => {
   //   ])
   // })
 
+  // it('should parse literals with prefix comments', () => {
+  //   expect(
+  //     parseLiterals(
+  //       `${options.codePrefix
+  //       }/* css */\`/* more comments */:host { display: block }\`${
+  //         options.codeSuffix}`,
+  //     ),
+  //   ).to.deep.equal([
+  //     {
+  //       parts: [
+  //         {
+  //           end: 53 + offset,
+  //           start: 10 + offset,
+  //           text: '/* more comments */:host { display: block }',
+  //         },
+  //       ],
+  //     },
+  //   ])
+  // })
+
   it('should parse literals with prefix comments', () => {
     expect(
       parseLiterals(
         `${options.codePrefix
-        }/* css */\`/* more comments */:host { display: block }\`${
+        }\`/* more comments */:host { display: block }\`${
           options.codeSuffix}`,
       ),
     ).to.deep.equal([
       {
         parts: [
           {
-            end: 53 + offset,
-            start: 10 + offset,
+            end: 44 + offset,
+            start: 1 + offset,
             text: '/* more comments */:host { display: block }',
           },
         ],

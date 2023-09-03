@@ -34,10 +34,3 @@ export const getTemplateParts = (template: swc.TemplateLiteral, start: number, t
       ...template.quasis.slice(1).map(quasi => getMiddleTailTemplatePart(quasi, start, tag)),
     ]
 
-export const getTemplatePartsWithoutOffset = (template: swc.TemplateLiteral, tag?: string): TemplatePart[] =>
-  template.expressions.length === 0
-    ? [getHeadTemplatePart(template, 0, tag)]
-    : [
-      getHeadTemplatePart(template.quasis[0], 0, tag),
-      ...template.quasis.slice(1).map(quasi => getMiddleTailTemplatePart(quasi, 0, tag)),
-    ]

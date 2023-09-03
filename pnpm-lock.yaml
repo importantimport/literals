@@ -21,6 +21,8 @@ importers:
         specifier: ^0.34.3
         version: 0.34.3
 
+  packages/minify-html-literals: {}
+
   packages/parse-literals:
     dependencies:
       '@swc/core':
