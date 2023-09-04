@@ -5,7 +5,7 @@ import { Visitor } from '@swc/core/Visitor'
 // import { type FragmentOptions, minifyFragmentSync } from '@swc/html'
 import { transform } from 'lightningcss'
 import { Buffer } from 'node:buffer'
-import { match } from 'ts-pattern'
+import { P, match } from 'ts-pattern'
 
 export interface MinifyVisitorOptions {
   // minify: {
@@ -47,7 +47,7 @@ export class MinifyVisitor extends Visitor {
       template: {
         ...template,
         quasis: match(value)
-          .with('html', () => {
+          .with(P.string.includes('html').or(P.string.includes('svg')), () => {
             /** @example `minify-html-literals-placeholder-64` */
             const placeholder = `minify-html-literals-placeholder-${Math.floor(Math.random() * 100)}`
 
@@ -62,7 +62,7 @@ export class MinifyVisitor extends Visitor {
               raw: minifiedHTML[i],
             }))
           })
-          .with('css', () => {
+          .with(P.string.includes('css'), () => {
             /** @example `@minify-html-literals-placeholder-64;` */
             const placeholder = `@minify-html-literals-placeholder-${Math.floor(Math.random() * 100)};`
 
