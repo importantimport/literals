@@ -48,6 +48,7 @@ export class MinifyVisitor extends Visitor {
         ...template,
         quasis: match(value)
           .with('html', () => {
+            /** @example `minify-html-literals-placeholder-64` */
             const placeholder = `minify-html-literals-placeholder-${Math.floor(Math.random() * 100)}`
 
             const combinedHTML = template.quasis.map(({ raw }) => raw).join(placeholder)
@@ -62,7 +63,8 @@ export class MinifyVisitor extends Visitor {
             }))
           })
           .with('css', () => {
-            const placeholder = `var(--minify-html-literals-placeholder-${Math.floor(Math.random() * 100)});`
+            /** @example `@minify-html-literals-placeholder-64;` */
+            const placeholder = `@minify-html-literals-placeholder-${Math.floor(Math.random() * 100)};`
 
             const combinedCSS = template.quasis.map(({ raw }) => raw).join(placeholder)
             const minifiedCSS = transform({
