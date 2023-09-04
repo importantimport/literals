@@ -1,21 +1,32 @@
+// import { type MinifyOptions, minifySync } from '@swc/css'
+import { minify } from '@minify-html/node'
 import * as swc from '@swc/core'
 import { Visitor } from '@swc/core/Visitor'
-import { type MinifyOptions, minifySync } from '@swc/css'
-import { type FragmentOptions, minifyFragmentSync } from '@swc/html'
+// import { type FragmentOptions, minifyFragmentSync } from '@swc/html'
+import { transform } from 'lightningcss'
 import { Buffer } from 'node:buffer'
 import { match } from 'ts-pattern'
 
 export interface MinifyVisitorOptions {
-  minify: {
-    css: MinifyOptions
-    html?: FragmentOptions
+  // minify: {
+  //   css: MinifyOptions
+  //   html?: FragmentOptions
+  // }
+  minify?: {
+    css?: Partial<Omit<Parameters<typeof transform>[0], 'code'>>,
+    html?: Parameters<typeof minify>[1]
   }
 }
 
 export class MinifyVisitor extends Visitor {
   private options: MinifyVisitorOptions = {
     minify: {
-      css: {},
+      css: {
+        minify: true,
+      },
+      html: {
+        keep_spaces_between_attributes: false,
+      },
     },
   }
 
@@ -31,23 +42,46 @@ export class MinifyVisitor extends Visitor {
     const { tag, template } = node
     const { value } = tag as swc.Identifier
 
-    match(value)
-      .with('html', () => {
-        template.quasis.map(quasi => ({
-          ...quasi,
-          raw: minifyFragmentSync(Buffer.from(quasi.raw), this.options.minify?.html),
-        }))
-      })
-      .with('css', () => {
-        template.quasis.map(quasi => ({
-          ...quasi,
-          raw: minifySync(Buffer.from(quasi.raw), this.options.minify?.css),
-        }))
-      })
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      .otherwise(() => {})
+    return {
+      ...node,
+      template: {
+        ...template,
+        quasis: match(value)
+          .with('html', () =>
+            template.quasis.map(quasi => ({
+              ...quasi,
+              raw: minify(Buffer.from(quasi.raw), this.options.minify?.html ?? {}).toString(),
+              // raw: minifyFragmentSync(Buffer.from(quasi.raw), this.options.minify?.html),
+            })),
+          )
+          .with('css', () =>
+            template.quasis.map((quasi) => {
+              const minified = transform({
+                code: Buffer.from(quasi.raw),
+                filename: '',
+                ...this.options.minify?.css,
+              }).code.toString()
 
-    return super.visitTaggedTemplateExpression(node)
+              // eslint-disable-next-line no-console
+              console.log('minified css:', minified)
+
+              return {
+                ...quasi,
+                raw: minified,
+              }
+              // ({
+              //   ...quasi,
+              //   raw: transform({
+              //     code: Buffer.from(quasi.raw),
+              //     filename: '',
+              //   }).code.toString(),
+              // })
+            }),
+          )
+          .otherwise(() => template.quasis),
+        // .exhaustive(),
+      },
+    }
   }
 
   // visitTemplateLiteral(node: swc.TemplateLiteral): swc.Expression {

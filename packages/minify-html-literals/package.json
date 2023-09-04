@@ -6,9 +6,11 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@minify-html/node": "^0.11.1",
     "@swc/core": "^1.3.82",
     "@swc/css": "^0.0.28",
     "@swc/html": "^0.0.28",
+    "lightningcss": "^1.21.7",
     "ts-pattern": "^5.0.5"
   }
 }

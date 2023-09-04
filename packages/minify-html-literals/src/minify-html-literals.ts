@@ -10,13 +10,14 @@ export interface MinifyHTMLLiteralsOptions extends MinifyVisitorOptions {
 export const minifyHTMLLiterals = (
   src: string,
   options: Partial<MinifyHTMLLiteralsOptions> = {},
-) => {
+): swc.Output => {
   const visitor = new MinifyVisitor()
-  const module = swc.parseSync(src, options.parse)
+  let module = swc.parseSync(src, options.parse)
 
-  visitor.visitModule(module)
+  module = visitor.visitModule(module)
 
-  const { code } = swc.printSync(module, options.print)
+  // const { code } = swc.printSync(module, options.print)
 
-  return code
+  // return code
+  return swc.printSync(module, options.print)
 }
