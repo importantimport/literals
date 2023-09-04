@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "@importantimport/eslint-config": "^0.1.2",
+    "@types/node": "^20.5.9",
     "eslint": "^8.48.0",
     "vite": "^4.4.9",
     "vitest": "^0.34.3"
