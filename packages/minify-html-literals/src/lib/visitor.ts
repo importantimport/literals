@@ -47,39 +47,40 @@ export class MinifyVisitor extends Visitor {
       template: {
         ...template,
         quasis: match(value)
-          .with('html', () =>
-            template.quasis.map(quasi => ({
+          .with('html', () => {
+            const placeholder = `minify-html-literals-placeholder-${Math.floor(Math.random() * 100)}`
+
+            const combinedHTML = template.quasis.map(({ raw }) => raw).join(placeholder)
+            const minifiedHTML = minify(Buffer.from(combinedHTML), this.options.minify?.html ?? {})
+              .toString()
+              .split(placeholder)
+
+            return template.quasis.map((quasi, i) => ({
               ...quasi,
-              raw: minify(Buffer.from(quasi.raw), this.options.minify?.html ?? {}).toString(),
-              // raw: minifyFragmentSync(Buffer.from(quasi.raw), this.options.minify?.html),
-            })),
-          )
-          .with('css', () =>
-            template.quasis.map((quasi) => {
-              const minified = transform({
-                code: Buffer.from(quasi.raw),
-                filename: '',
-                ...this.options.minify?.css,
-              }).code.toString()
+              // cooked: undefined,
+              raw: minifiedHTML[i],
+            }))
+          })
+          .with('css', () => {
+            const placeholder = `var(--minify-html-literals-placeholder-${Math.floor(Math.random() * 100)});`
 
-              // eslint-disable-next-line no-console
-              console.log('minified css:', minified)
+            const combinedCSS = template.quasis.map(({ raw }) => raw).join(placeholder)
+            const minifiedCSS = transform({
+              code: Buffer.from(combinedCSS),
+              filename: '',
+              ...this.options.minify?.css,
+            })
+              .code
+              .toString()
+              .split(placeholder)
 
-              return {
-                ...quasi,
-                raw: minified,
-              }
-              // ({
-              //   ...quasi,
-              //   raw: transform({
-              //     code: Buffer.from(quasi.raw),
-              //     filename: '',
-              //   }).code.toString(),
-              // })
-            }),
-          )
+            return template.quasis.map((quasi, i) => ({
+              ...quasi,
+              // cooked: undefined,
+              raw: minifiedCSS[i],
+            }))
+          })
           .otherwise(() => template.quasis),
-        // .exhaustive(),
       },
     }
   }
