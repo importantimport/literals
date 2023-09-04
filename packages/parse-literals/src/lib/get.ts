@@ -33,4 +33,3 @@ export const getTemplateParts = (template: swc.TemplateLiteral, start: number, t
       getHeadTemplatePart(template.quasis[0], start, tag),
       ...template.quasis.slice(1).map(quasi => getMiddleTailTemplatePart(quasi, start, tag)),
     ]
-
