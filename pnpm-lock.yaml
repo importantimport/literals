@@ -46,12 +46,6 @@ importers:
         specifier: ^4.0.3
         version: 4.0.3
 
-  packages/parse-literals:
-    dependencies:
-      '@swc/core':
-        specifier: ^1.3.82
-        version: 1.3.82
-
 packages:
 
   /@aashutoshrathi/word-wrap@1.2.6:
