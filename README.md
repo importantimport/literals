@@ -8,12 +8,6 @@
 
 Super-fast alternative for `minify-html-literals`.
 
-```bash
-pnpm add @importantimport/minify-html-literals # pnpm
-# yarn add @importantimport/minify-html-literals # yarn
-# npm i @importantimport/minify-html-literals # npm
-```
-
 ```ts
 import { minifyHTMLLiterals } from '@importantimport/minify-html-literals'
 
@@ -45,6 +39,24 @@ console.log(result.code)
 //           `;
 //     })}</ul>`;
 // }
+```
+
+### `@importantimport/unplugin-minify-html-literals`
+
+Super-fast alternative for `rollup-plugin-minify-html-literals`.
+
+```ts
+// vite.config.ts
+import minifyHTML from '@importantimport/unplugin-minify-html-literals'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  ...config,
+  plugins: [
+    minifyHTML.vite(),
+    ...plugins,
+  ],
+})
 ```
 
 ## License

@@ -1,7 +1,6 @@
 import { builtinModules } from 'node:module'
 import path from 'node:path'
 import url from 'node:url'
-// import pattycake from 'pattycake'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import tsconfigPaths from 'vite-tsconfig-paths'
@@ -25,7 +24,6 @@ export default defineConfig({
     },
   },
   plugins: [
-    // pattycake.vite({ disableOptionalChaining: false }),
     tsconfigPaths(),
     dts(),
   ],
