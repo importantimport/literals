@@ -21,3 +21,18 @@ export const minifyHTMLLiterals = (
   // return code
   return swc.printSync(module, options.print)
 }
+
+export const minifyHTMLLiteralsAsync = async (
+  src: string,
+  options: Partial<MinifyHTMLLiteralsOptions> = {},
+): Promise<swc.Output> => {
+  const visitor = new MinifyVisitor()
+  let module = swc.parseSync(src, options.parse)
+
+  module = visitor.visitModule(module)
+
+  // const { code } = await swc.print(module, options.print)
+
+  // return code
+  return await swc.print(module, options.print)
+}

@@ -1,20 +1,16 @@
-// import { type MinifyOptions, minifySync } from '@swc/css'
-import { minify } from '@minify-html/node'
 import * as swc from '@swc/core'
 import { Visitor } from '@swc/core/Visitor'
-// import { type FragmentOptions, minifyFragmentSync } from '@swc/html'
+import { type Options as HTMLOptions, minify } from 'html-minifier'
 import { transform } from 'lightningcss'
 import { Buffer } from 'node:buffer'
 import { P, match } from 'ts-pattern'
 
 export interface MinifyVisitorOptions {
-  // minify: {
-  //   css: MinifyOptions
-  //   html?: FragmentOptions
-  // }
   minify?: {
+    /** `lightningcss` options */
     css?: Partial<Omit<Parameters<typeof transform>[0], 'code'>>,
-    html?: Parameters<typeof minify>[1]
+    /** `html-minifier` options */
+    html?: Partial<HTMLOptions>,
   }
 }
 
@@ -25,7 +21,18 @@ export class MinifyVisitor extends Visitor {
         minify: true,
       },
       html: {
-        keep_spaces_between_attributes: false,
+        caseSensitive: true,
+        collapseWhitespace: true,
+        decodeEntities: true,
+        minifyCSS: true,
+        minifyJS: true,
+        processConditionalComments: true,
+        removeAttributeQuotes: false,
+        removeComments: true,
+        removeEmptyAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true,
       },
     },
   }
@@ -51,8 +58,11 @@ export class MinifyVisitor extends Visitor {
             /** @example `minify-html-literals-placeholder-64` */
             const placeholder = `minify-html-literals-placeholder-${Math.floor(Math.random() * 100)}`
 
-            const combinedHTML = template.quasis.map(({ raw }) => raw).join(placeholder)
-            const minifiedHTML = minify(Buffer.from(combinedHTML), this.options.minify?.html ?? {})
+            const combinedHTML = template.quasis
+              .map(({ raw }) => raw)
+              .join(placeholder)
+
+            const minifiedHTML = minify(combinedHTML, this.options.minify?.html)
               .toString()
               .split(placeholder)
 
