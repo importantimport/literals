@@ -25,7 +25,7 @@ export class MinifyVisitor extends Visitor {
         collapseWhitespace: true,
         decodeEntities: true,
         // TODO: use lightningcss
-        // minifyCSS: true,
+        minifyCSS: true,
         minifyJS: true,
         processConditionalComments: true,
         removeAttributeQuotes: false,
