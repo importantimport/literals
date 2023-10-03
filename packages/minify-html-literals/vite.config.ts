@@ -4,6 +4,7 @@ import url from 'node:url'
 // import pattycake from 'pattycake'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 import pkg from './package.json' assert { type: 'json' }
 
@@ -26,6 +27,7 @@ export default defineConfig({
   },
   plugins: [
     // pattycake.vite({ disableOptionalChaining: false }),
+    tsconfigPaths(),
     dts(),
   ],
 })
