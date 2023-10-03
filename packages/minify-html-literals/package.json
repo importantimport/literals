@@ -2,7 +2,15 @@
   "name": "@importantimport/minify-html-literals",
   "type": "module",
   "version": "0.0.1",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
   "scripts": {
+    "build": "vite build",
     "test": "vitest run"
   },
   "dependencies": {
@@ -13,6 +21,7 @@
     "ts-pattern": "^5.0.5"
   },
   "devDependencies": {
-    "@types/html-minifier": "^4.0.3"
+    "@types/html-minifier": "^4.0.3",
+    "pattycake": "^0.0.2"
   }
 }

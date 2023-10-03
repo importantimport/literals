@@ -24,7 +24,8 @@ export class MinifyVisitor extends Visitor {
         caseSensitive: true,
         collapseWhitespace: true,
         decodeEntities: true,
-        minifyCSS: true,
+        // TODO: use lightningcss
+        // minifyCSS: true,
         minifyJS: true,
         processConditionalComments: true,
         removeAttributeQuotes: false,
@@ -96,14 +97,4 @@ export class MinifyVisitor extends Visitor {
       },
     }
   }
-
-  // visitTemplateLiteral(node: swc.TemplateLiteral): swc.Expression {
-  //   if (!this.visitedTemplates.includes(node)) {
-  //     this.literals.push({
-  //       parts: getTemplateParts(node, node.span.start - this.start),
-  //     })
-  //   }
-
-  //   return super.visitTemplateLiteral(node)
-  // }
 }

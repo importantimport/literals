@@ -1,6 +1,6 @@
 import * as swc from '@swc/core'
 
-import { MinifyVisitor, type MinifyVisitorOptions } from './lib/visitor'
+import { MinifyVisitor, type MinifyVisitorOptions } from '~/lib/visitor'
 
 export interface MinifyHTMLLiteralsOptions extends MinifyVisitorOptions {
   parse?: swc.ParseOptions
