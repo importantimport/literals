@@ -14,6 +14,7 @@
   "types": "./dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
+    "bench": "vitest bench",
     "build": "vite build",
     "test": "vitest run"
   },
